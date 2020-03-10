@@ -1,0 +1,3 @@
+Tileable plane
+Make Cage
+Remove endcaps from MakeCurveArray - fixes merge issue
