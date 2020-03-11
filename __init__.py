@@ -41,6 +41,10 @@ if "bpy" in locals():
     from .utilities import MakeHPOperator
     importlib.reload(utilities)
 
+    from .baketools import NineTile_Operator
+    from .baketools import MakeCage_Operator
+    importlib.reload(baketools)
+
 # or if this is the first load of this add-on
 else:
     print("importing .py files")
@@ -52,6 +56,8 @@ else:
     from .dynacyl import add_object_button
     from .utilities import MakeHPOperator
     from .utilities import MakeCurveAOperator
+    from .baketools import NineTile_Operator
+    from .baketools import MakeCage_Operator
 
 def register():
 
@@ -60,6 +66,8 @@ def register():
     bpy.utils.register_class(OBJECT_OT_add_object)
     bpy.utils.register_class(MakeHPOperator)
     bpy.utils.register_class(MakeCurveAOperator)
+    bpy.utils.register_class(NineTile_Operator)
+    bpy.utils.register_class(MakeCage_Operator)
 
     bpy.utils.register_manual_map(add_object_manual_map)
     bpy.types.VIEW3D_MT_mesh_add.append(add_object_button)
@@ -72,6 +80,8 @@ def unregister():
     bpy.utils.unregister_class(OBJECT_OT_add_object)
     bpy.utils.unregister_class(MakeHPOperator)
     bpy.utils.unregister_class(MakeCurveAOperator)
+    bpy.utils.unregister_class(NineTile_Operator)
+    bpy.utils.unregister_class(MakeCage_Operator)
 
     bpy.utils.unregister_manual_map(add_object_manual_map)
     bpy.types.VIEW3D_MT_mesh_add.remove(add_object_button)
