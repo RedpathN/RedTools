@@ -19,4 +19,8 @@ class PT_Panel(bpy.types.Panel):
         row.operator('view3d.make_hp', text="Make HighPoly")
         row = layout.row()
         row.operator('view3d.make_curve_array', text="Make Curve Array")
+        row = layout.row()
+        row.operator('view3d.add_ninetile', text="Add NineTile")
+        row = layout.row()
+        row.operator('view3d.make_cage', text="Make Cage")
 
