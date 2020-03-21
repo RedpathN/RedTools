@@ -1,6 +1,11 @@
 import bpy
 
+
+# CLS----------------------------------------------------
+
+
 class NineTile_Operator(bpy.types.Operator):
+
     bl_idname = "redtools.add_ninetile"
     bl_label = "Add NineTile"
     bl_description = "Adds a 3x3 tiling plane for baking tileables"
@@ -12,6 +17,7 @@ class NineTile_Operator(bpy.types.Operator):
         return {'FINISHED'}
 
 class MakeCage_Operator(bpy.types.Operator):
+
     bl_idname = "redtools.make_cage"
     bl_label = "Make Cage"
     bl_description = "Duplicates active object and scales on normals"
@@ -24,6 +30,9 @@ class MakeCage_Operator(bpy.types.Operator):
 
 
 
+# FUNC----------------------------------------------------
+
+
 def make_plane():
 
     bpy.ops.mesh.primitive_plane_add(size=2, enter_editmode=False, location=(-2, -2, 0))
@@ -34,21 +43,29 @@ def make_plane():
 def make_ninetile():
 
     ob = make_plane()
-    bpy.ops.object.modifier_add(type='ARRAY')
-    bpy.context.object.modifiers["Array"].count = 3
-    bpy.ops.object.modifier_add(type='ARRAY')
-    bpy.context.object.modifiers["Array.001"].relative_offset_displace[1] = 1
-    bpy.context.object.modifiers["Array.001"].use_relative_offset = False
-    bpy.context.object.modifiers["Array.001"].use_relative_offset = True
-    bpy.context.object.modifiers["Array.001"].relative_offset_displace[0] = 0
-    bpy.context.object.modifiers["Array.001"].count = 3
-    bpy.context.object.modifiers["Array"].use_merge_vertices = True
-    bpy.context.object.modifiers["Array.001"].use_merge_vertices = True
-    bpy.ops.object.modifier_apply(apply_as='DATA', modifier="Array")
-    bpy.ops.object.modifier_apply(apply_as='DATA', modifier="Array.001")
-    bpy.ops.object.origin_set(type='ORIGIN_GEOMETRY', center='MEDIAN')
-    bpy.context.object.show_wire = True
+    array_x = ob.modifiers.new("RT_NineArrayX", 'ARRAY')
+    array_x.count = 3
+    array_x.use_merge_vertices = True
 
+    array_y = ob.modifiers.new("RT_NineArrayY", 'ARRAY')
+    array_y.relative_offset_displace[1] = 1
+    array_y.use_relative_offset = False
+    array_y.use_relative_offset = True
+    array_y.relative_offset_displace[0] = 0
+    array_y.count = 3
+    array_y.use_merge_vertices = True
+
+    bpy.ops.object.modifier_apply(apply_as='DATA', modifier="RT_NineArrayX")
+    bpy.ops.object.modifier_apply(apply_as='DATA', modifier="RT_NineArrayY")
+    bpy.ops.object.origin_set(type='ORIGIN_GEOMETRY', center='MEDIAN')
+    ob.show_wire = True
+
+def get_name(ob):
+    if (ob.name.endswith("_low") == True):
+        name = ob.name[:-4]
+    else:
+        name = ob.name
+    return name
 
 def make_cage():
     ob = bpy.context.active_object
@@ -56,11 +73,8 @@ def make_cage():
     bpy.ops.object.duplicate_move(OBJECT_OT_duplicate={"linked": True, "mode": 'TRANSLATION'},
                                   TRANSFORM_OT_translate={"value": (0, -0, 0)})
     ob2 = bpy.context.active_object
-    if (ob.name.endswith("_low") == True):
-        ob.name = ob.name[:-4]
-    ob2.name = ob.name + "_cage"
-    if (ob.name.endswith("_low") == False):
-        ob.name += "_low"
+    ob.name = get_name(ob) + "_low"
+    ob2.name = get_name(ob) + "_cage"
 
     cagemod = ob2.modifiers.new("RT_Cage", 'DISPLACE')
     cagemod.strength = 0.2

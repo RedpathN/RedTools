@@ -3,7 +3,8 @@ import bmesh
 import mathutils
 
 
-# FUNC----------------------------------------------------
+# CLS----------------------------------------------------
+
 class OT_Operator(bpy.types.Operator):
     bl_idname = "redtools.floorsnap"
     bl_label = "Floor Snap"
@@ -34,6 +35,7 @@ class OT_Operator(bpy.types.Operator):
 
         return {'FINISHED'}
 
+# FUNC----------------------------------------------------
 
 def make_bmesh(me):
     bm = bmesh.new()  # create an empty BMesh

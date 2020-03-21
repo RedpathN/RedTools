@@ -1,6 +1,8 @@
 import bpy
 from . import utilities
 
+
+# CLS----------------------------------------------------
 class AddCurveAOperator(bpy.types.Operator):
     bl_idname = "redtools.add_curve_array"
     bl_label = "Add Curve Array"
@@ -11,6 +13,7 @@ class AddCurveAOperator(bpy.types.Operator):
         make_curve_array()
         return {'FINISHED'}
 
+# FUNC----------------------------------------------------
 
 def make_curve():
     curve = bpy.ops.curve.primitive_nurbs_path_add(enter_editmode=False, location=(0, 0, 0))

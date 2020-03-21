@@ -1,5 +1,6 @@
 import bpy
 
+# CLS---------------------------------------------------
 
 class PT_RTPanel(bpy.types.Panel):
     bl_idname = "RT_PT_MainPanel"
@@ -16,6 +17,9 @@ class PT_RTPanel(bpy.types.Panel):
 
         row = layout.row()
         row.operator('redtools.make_hp', text="Make HighPoly")
+
+        row = layout.row()
+        row.operator('redtools.make_wn', text="Make Weighted Normals")
 
         row = layout.row()
         row.operator('redtools.make_cage', text="Make Cage")

@@ -9,109 +9,10 @@ from mathutils import Vector
 
 from . import utilities
 
-
-def add_object(self, context):
-    scale_x = self.radius
-    scale_z = self.height
-    
-    if self.floored == False:        
-        if self.endCaps == True:
-            verts = [
-                
-                Vector((0 * scale_x, 0, 1 * (scale_z*0.5))),
-                Vector((1 * scale_x, 0, 1 * (scale_z*0.5))),
-                Vector((1 * scale_x, 0, -1 * (scale_z*0.5))),            
-                Vector((0 * scale_x, 0, -1 * (scale_z*0.5))),
-                
-            ]
-
-            edges = [[0, 1],[1, 2],[2, 3]]
-            faces = []
-        else:
-            verts = [
-                
-                Vector((1 * scale_x, 0, 1 * (scale_z*0.5))),
-                Vector((1 * scale_x, 0, -1 * (scale_z*0.5))),            
-                
-            ]
-            edges = [[0, 1]]
-            faces = []
-    else:    
-        if self.endCaps == True:
-            verts = [
-                
-                Vector((0 * scale_x, 0, 1 * scale_z)),
-                Vector((1 * scale_x, 0, 1 * scale_z)),
-                Vector((1 * scale_x, 0, 0)),            
-                Vector((0 * scale_x, 0, 0)),
-                
-            ]
-
-            edges = [[0, 1],[1, 2],[2, 3]]
-            faces = []
-        else:
-            verts = [
-                
-                Vector((1 * scale_x, 0, 1 * scale_z)),
-                Vector((1 * scale_x, 0, 0)),            
-                
-            ]
-            edges = [[0, 1]]
-            faces = []
-
-    mesh = bpy.data.meshes.new(name="DynaCyl")
-    mesh.from_pydata(verts, edges, faces)
-    # useful for development when the mesh may be invalid.
-    # mesh.validate(verbose=True)
-    object_data_add(context, mesh, operator=self)
-
-    ob = bpy.context.active_object
-    return ob
-    
-def add_modifiers(self, context, ob):
-
-    bpy.ops.object.modifier_add(type='SCREW')
-    ob.modifiers["Screw"].steps = self.sideNum
-    utilities.set_smooth(ob)
-
-    
-    if self.thickness != 0.0:
-        bpy.ops.object.modifier_add(type='SOLIDIFY')
-        bpy.context.object.modifiers["Solidify"].thickness = self.thickness
-        bpy.context.object.modifiers["Solidify"].use_even_offset = True
-
-
-    if self.subDiv == True:
-        
-        bpy.ops.object.modifier_add(type='BEVEL')
-        bpy.context.object.modifiers["Bevel"].limit_method = 'ANGLE'
-        bpy.context.object.modifiers["Bevel"].angle_limit = 1.48353
-        bpy.context.object.modifiers["Bevel"].segments = 2
-        bpy.context.object.modifiers["Bevel"].profile = 1
-        bpy.context.object.modifiers["Bevel"].offset_type = 'PERCENT'
-        bpy.context.object.modifiers["Bevel"].width_pct = 5
-
-        
-        bpy.ops.object.modifier_add(type='SUBSURF')
-        bpy.context.object.modifiers["Subdivision"].levels = 2
-    
-        if self.sideNum < 5:
-            self.faceted = True
-            
-        if self.faceted == True:
-            bpy.context.object.modifiers["Bevel"].miter_outer = 'MITER_ARC'
-            if self.thickness != 0.0:
-                bpy.context.object.modifiers["Bevel"].limit_method = 'NONE'
-            else:
-                bpy.context.object.modifiers["Bevel"].angle_limit = 0.174533
-    else:
-        
-        self.faceted = False;
-
-        
+# CLS----------------------------------------------------
 
 class OBJECT_OT_add_object(Operator, AddObjectHelper):
-    """Create a new Mesh Object"""
+
     bl_idname = "redtools.add_dynacyl"
     bl_label = "Add DynaCyl"
     bl_options = {'REGISTER', 'UNDO'}
@@ -181,7 +82,104 @@ class OBJECT_OT_add_object(Operator, AddObjectHelper):
         return {'FINISHED'}
 
 
-# Registration
+# FUNC----------------------------------------------------
+
+def add_object(self, context):
+    scale_x = self.radius
+    scale_z = self.height
+
+    if self.floored == False:
+        if self.endCaps == True:
+            verts = [
+
+                Vector((0 * scale_x, 0, 1 * (scale_z * 0.5))),
+                Vector((1 * scale_x, 0, 1 * (scale_z * 0.5))),
+                Vector((1 * scale_x, 0, -1 * (scale_z * 0.5))),
+                Vector((0 * scale_x, 0, -1 * (scale_z * 0.5))),
+
+            ]
+
+            edges = [[0, 1], [1, 2], [2, 3]]
+            faces = []
+        else:
+            verts = [
+
+                Vector((1 * scale_x, 0, 1 * (scale_z * 0.5))),
+                Vector((1 * scale_x, 0, -1 * (scale_z * 0.5))),
+
+            ]
+            edges = [[0, 1]]
+            faces = []
+    else:
+        if self.endCaps == True:
+            verts = [
+
+                Vector((0 * scale_x, 0, 1 * scale_z)),
+                Vector((1 * scale_x, 0, 1 * scale_z)),
+                Vector((1 * scale_x, 0, 0)),
+                Vector((0 * scale_x, 0, 0)),
+
+            ]
+
+            edges = [[0, 1], [1, 2], [2, 3]]
+            faces = []
+        else:
+            verts = [
+
+                Vector((1 * scale_x, 0, 1 * scale_z)),
+                Vector((1 * scale_x, 0, 0)),
+
+            ]
+            edges = [[0, 1]]
+            faces = []
+
+    mesh = bpy.data.meshes.new(name="DynaCyl")
+    mesh.from_pydata(verts, edges, faces)
+    # useful for development when the mesh may be invalid.
+    # mesh.validate(verbose=True)
+    object_data_add(context, mesh, operator=self)
+
+    ob = bpy.context.active_object
+    return ob
+
+
+def add_modifiers(self, context, ob):
+    bpy.ops.object.modifier_add(type='SCREW')
+    ob.modifiers["Screw"].steps = self.sideNum
+    utilities.set_smooth(ob)
+
+    if self.thickness != 0.0:
+        bpy.ops.object.modifier_add(type='SOLIDIFY')
+        bpy.context.object.modifiers["Solidify"].thickness = self.thickness
+        bpy.context.object.modifiers["Solidify"].use_even_offset = True
+
+    if self.subDiv == True:
+
+        bpy.ops.object.modifier_add(type='BEVEL')
+        bpy.context.object.modifiers["Bevel"].limit_method = 'ANGLE'
+        bpy.context.object.modifiers["Bevel"].angle_limit = 1.48353
+        bpy.context.object.modifiers["Bevel"].segments = 2
+        bpy.context.object.modifiers["Bevel"].profile = 1
+        bpy.context.object.modifiers["Bevel"].offset_type = 'PERCENT'
+        bpy.context.object.modifiers["Bevel"].width_pct = 5
+
+        bpy.ops.object.modifier_add(type='SUBSURF')
+        bpy.context.object.modifiers["Subdivision"].levels = 2
+
+        if self.sideNum < 5:
+            self.faceted = True
+
+        if self.faceted == True:
+            bpy.context.object.modifiers["Bevel"].miter_outer = 'MITER_ARC'
+            if self.thickness != 0.0:
+                bpy.context.object.modifiers["Bevel"].limit_method = 'NONE'
+            else:
+                bpy.context.object.modifiers["Bevel"].angle_limit = 0.174533
+    else:
+
+        self.faceted = False;
+
+# MAPPING----------------------------------------------------
 
 def add_object_button(self, context):
     self.layout.operator(
