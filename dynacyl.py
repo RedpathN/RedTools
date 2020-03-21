@@ -7,6 +7,8 @@ from bpy.props import BoolProperty
 from bpy_extras.object_utils import AddObjectHelper, object_data_add
 from mathutils import Vector
 
+from . import utilities
+
 
 def add_object(self, context):
     scale_x = self.radius
@@ -62,15 +64,15 @@ def add_object(self, context):
     # useful for development when the mesh may be invalid.
     # mesh.validate(verbose=True)
     object_data_add(context, mesh, operator=self)
+
+    ob = bpy.context.active_object
+    return ob
     
-    return mesh
-    
-def add_modifiers(self, context):
+def add_modifiers(self, context, ob):
 
     bpy.ops.object.modifier_add(type='SCREW')
-    bpy.context.object.modifiers["Screw"].steps = self.sideNum
-    bpy.context.object.data.use_auto_smooth = True
-    bpy.context.object.data.auto_smooth_angle = 1.13446
+    ob.modifiers["Screw"].steps = self.sideNum
+    utilities.set_smooth(ob)
 
     
     if self.thickness != 0.0:
@@ -110,7 +112,7 @@ def add_modifiers(self, context):
 
 class OBJECT_OT_add_object(Operator, AddObjectHelper):
     """Create a new Mesh Object"""
-    bl_idname = "mesh.add_dynacyl"
+    bl_idname = "redtools.add_dynacyl"
     bl_label = "Add DynaCyl"
     bl_options = {'REGISTER', 'UNDO'}
 
@@ -174,8 +176,8 @@ class OBJECT_OT_add_object(Operator, AddObjectHelper):
 
     def execute(self, context):
 
-        mesh = add_object(self, context)
-        add_modifiers(self, context)
+        ob = add_object(self, context)
+        add_modifiers(self, context, ob)
         return {'FINISHED'}
 
 

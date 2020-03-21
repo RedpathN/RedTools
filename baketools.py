@@ -1,7 +1,7 @@
 import bpy
 
 class NineTile_Operator(bpy.types.Operator):
-    bl_idname = "view3d.add_ninetile"
+    bl_idname = "redtools.add_ninetile"
     bl_label = "Add NineTile"
     bl_description = "Adds a 3x3 tiling plane for baking tileables"
 
@@ -12,7 +12,7 @@ class NineTile_Operator(bpy.types.Operator):
         return {'FINISHED'}
 
 class MakeCage_Operator(bpy.types.Operator):
-    bl_idname = "view3d.make_cage"
+    bl_idname = "redtools.make_cage"
     bl_label = "Make Cage"
     bl_description = "Duplicates active object and scales on normals"
 
@@ -53,11 +53,18 @@ def make_ninetile():
 def make_cage():
     ob = bpy.context.active_object
 
-    bpy.ops.object.duplicate_move(OBJECT_OT_duplicate={"linked": False, "mode": 'TRANSLATION'},
+    bpy.ops.object.duplicate_move(OBJECT_OT_duplicate={"linked": True, "mode": 'TRANSLATION'},
                                   TRANSFORM_OT_translate={"value": (0, -0, 0)})
-    bpy.ops.object.modifier_add(type='DISPLACE')
-    bpy.context.object.modifiers["Displace"].strength = 0.2
-    bpy.context.object.display_type = 'WIRE'
+    ob2 = bpy.context.active_object
+    if (ob.name.endswith("_low") == True):
+        ob.name = ob.name[:-4]
+    ob2.name = ob.name + "_cage"
+    if (ob.name.endswith("_low") == False):
+        ob.name += "_low"
+
+    cagemod = ob2.modifiers.new("RT_Cage", 'DISPLACE')
+    cagemod.strength = 0.2
+    ob2.display_type = 'WIRE'
 
 
 

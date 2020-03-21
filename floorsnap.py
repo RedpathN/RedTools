@@ -5,7 +5,7 @@ import mathutils
 
 # FUNC----------------------------------------------------
 class OT_Operator(bpy.types.Operator):
-    bl_idname = "view3d.floorsnap"
+    bl_idname = "redtools.floorsnap"
     bl_label = "Floor Snap"
     bl_description = "Snap an object's origin to it's floor"
 

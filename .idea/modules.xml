@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file:$PROJECT_DIR$/../../../../../../../../../../..//$PROJECT_DIR$/.idea/RedTools.iml" filepath="$PROJECT_DIR$/.idea/RedTools.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/RedTools.iml" filepath="$PROJECT_DIR$/.idea/RedTools.iml" />
+      <module fileurl="file://file:E:/../../../../../../../..//E:/BAddons/addons/RedTools/.idea/RedTools.iml" filepath="file:E:/../../../../../../../..//E:/BAddons/addons/RedTools/.idea/RedTools.iml" />
     </modules>
   </component>
 </project>
