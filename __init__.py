@@ -35,6 +35,7 @@ if "bpy" in locals():
     importlib.reload(floorsnap)  # does this file need a def register() / def unregister() for the classes inside?
 
     from .panel import PT_RTPanel  # addon_panel.py (panel interface classes are created here)
+    from .panel import BoolProps
     importlib.reload(panel)
 
     from .dynacyl import OBJECT_OT_add_object
@@ -61,6 +62,7 @@ else:
     import bpy
     from .floorsnap import OT_Operator
     from .panel import PT_RTPanel
+    from .panel import BoolProps
     from .dynacyl import OBJECT_OT_add_object
     from .dynacyl import add_object_manual_map
     from .dynacyl import add_object_button
@@ -83,9 +85,12 @@ def register():
     bpy.utils.register_class(AddCurveAOperator)
     bpy.utils.register_class(NineTile_Operator)
     bpy.utils.register_class(MakeCage_Operator)
+    bpy.utils.register_class(BoolProps)
 
+    bpy.types.Scene.BoolProps = bpy.props.PointerProperty(type=BoolProps)
     bpy.utils.register_manual_map(add_object_manual_map)
     bpy.types.VIEW3D_MT_mesh_add.append(add_object_button)
+
 
 
 def unregister():
@@ -98,6 +103,8 @@ def unregister():
     bpy.utils.unregister_class(AddCurveAOperator)
     bpy.utils.unregister_class(NineTile_Operator)
     bpy.utils.unregister_class(MakeCage_Operator)
+    bpy.utils.unregister_class(BoolProps)
 
+    del (bpy.types.Scene.QueryProps)
     bpy.utils.unregister_manual_map(add_object_manual_map)
     bpy.types.VIEW3D_MT_mesh_add.remove(add_object_button)

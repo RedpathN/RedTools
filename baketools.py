@@ -1,5 +1,5 @@
 import bpy
-
+from bpy.props import BoolProperty
 
 # CLS----------------------------------------------------
 
@@ -73,7 +73,9 @@ def make_cage():
     bpy.ops.object.duplicate_move(OBJECT_OT_duplicate={"linked": True, "mode": 'TRANSLATION'},
                                   TRANSFORM_OT_translate={"value": (0, -0, 0)})
     ob2 = bpy.context.active_object
-    ob.name = get_name(ob) + "_low"
+
+    if(bpy.context.scene.BoolProps.cage_renamelow == True):
+        ob.name = get_name(ob) + "_low"
     ob2.name = get_name(ob) + "_cage"
 
     cagemod = ob2.modifiers.new("RT_Cage", 'DISPLACE')
