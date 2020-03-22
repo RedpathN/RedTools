@@ -35,7 +35,7 @@ if "bpy" in locals():
     importlib.reload(floorsnap)  # does this file need a def register() / def unregister() for the classes inside?
 
     from .panel import PT_RTPanel  # addon_panel.py (panel interface classes are created here)
-    from .panel import BoolProps
+    from .panel import Props
     importlib.reload(panel)
 
     from .dynacyl import OBJECT_OT_add_object
@@ -52,6 +52,7 @@ if "bpy" in locals():
     importlib.reload(baketools)
 
     from .curvearray import AddCurveAOperator
+    from .curvearray import AddCurveMeshOperator
     importlib.reload(curvearray)
 
 
@@ -62,13 +63,14 @@ else:
     import bpy
     from .floorsnap import OT_Operator
     from .panel import PT_RTPanel
-    from .panel import BoolProps
+    from .panel import Props
     from .dynacyl import OBJECT_OT_add_object
     from .dynacyl import add_object_manual_map
     from .dynacyl import add_object_button
     from .utilities import MakeHPOperator
     from .utilities import MakeWNOperator
     from .curvearray import AddCurveAOperator
+    from .curvearray import AddCurveMeshOperator
     from .baketools import NineTile_Operator
     from .baketools import MakeCage_Operator
 
@@ -83,11 +85,12 @@ def register():
     bpy.utils.register_class(MakeHPOperator)
     bpy.utils.register_class(MakeWNOperator)
     bpy.utils.register_class(AddCurveAOperator)
+    bpy.utils.register_class(AddCurveMeshOperator)
     bpy.utils.register_class(NineTile_Operator)
     bpy.utils.register_class(MakeCage_Operator)
-    bpy.utils.register_class(BoolProps)
+    bpy.utils.register_class(Props)
 
-    bpy.types.Scene.BoolProps = bpy.props.PointerProperty(type=BoolProps)
+    bpy.types.Scene.Props = bpy.props.PointerProperty(type=Props)
     bpy.utils.register_manual_map(add_object_manual_map)
     bpy.types.VIEW3D_MT_mesh_add.append(add_object_button)
 
@@ -101,10 +104,11 @@ def unregister():
     bpy.utils.unregister_class(MakeHPOperator)
     bpy.utils.unregister_class(MakeWNOperator)
     bpy.utils.unregister_class(AddCurveAOperator)
+    bpy.utils.unregister_class(AddCurveMeshOperator)
     bpy.utils.unregister_class(NineTile_Operator)
     bpy.utils.unregister_class(MakeCage_Operator)
     bpy.utils.unregister_class(BoolProps)
 
-    del (bpy.types.Scene.QueryProps)
+    del (bpy.types.Scene.Props)
     bpy.utils.unregister_manual_map(add_object_manual_map)
     bpy.types.VIEW3D_MT_mesh_add.remove(add_object_button)

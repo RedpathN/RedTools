@@ -74,7 +74,7 @@ def make_cage():
                                   TRANSFORM_OT_translate={"value": (0, -0, 0)})
     ob2 = bpy.context.active_object
 
-    if(bpy.context.scene.BoolProps.cage_renamelow == True):
+    if(bpy.context.scene.Props.cage_renamelow == True):
         ob.name = get_name(ob) + "_low"
     ob2.name = get_name(ob) + "_cage"
 

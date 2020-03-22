@@ -56,7 +56,7 @@ def make_hp(ob):
         hpbevel = ob.modifiers.new("RT_HPBevel", 'BEVEL')
 
     hpbevel.limit_method = 'ANGLE'
-    hpbevel.angle_limit = 0.436332
+    hpbevel.angle_limit = 1.13446
     hpbevel.segments = 3
     hpbevel.profile = 0.7
     hpbevel.offset_type = 'OFFSET'
@@ -83,9 +83,9 @@ def make_wn(ob):
     hpbevel = get_hpbevel(ob)
     if hpbevel is None:
         hpbevel = ob.modifiers.new("RT_HPBevel", 'BEVEL')
+        hpbevel.limit_method = 'ANGLE'
+        hpbevel.angle_limit = 1.13446
 
-    hpbevel.limit_method = 'ANGLE'
-    hpbevel.angle_limit = 0.436332
     hpbevel.segments = 1
     hpbevel.profile = 0.7
     hpbevel.offset_type = 'OFFSET'
