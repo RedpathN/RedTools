@@ -83,17 +83,18 @@ def make_curve_array(self, context):
 def make_curve_mesh(self, context):
 
     scale = bpy.context.scene.Props.curvearray_mesh_scale
+    halfscale = scale/2
     verts = [
 
-        Vector((0, 0, 0)),
-        Vector((0 , scale, 0)),
-        Vector((scale, scale, 0)),
-        Vector((scale, 0, 0)),
+        Vector((-halfscale, -halfscale, -halfscale)),
+        Vector((-halfscale, halfscale, -halfscale)),
+        Vector((halfscale, halfscale, -halfscale)),
+        Vector((halfscale, -halfscale, -halfscale)),
 
-        Vector((0, 0, scale)),
-        Vector((0, scale, scale)),
-        Vector((scale, scale, scale)),
-        Vector((scale, 0, scale)),
+        Vector((-halfscale, -halfscale, halfscale)),
+        Vector((-halfscale, halfscale, halfscale)),
+        Vector((halfscale, halfscale, halfscale)),
+        Vector((halfscale, -halfscale, halfscale))
 
     ]
 
