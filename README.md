@@ -22,7 +22,7 @@ Duplicates (as linked) current object at same location, renaming to ObjectName_c
 
 <H2>Add DynaCyl:</H2>
 Creates a cylindrical mesh out of a few spun vertices, allowing for later adjustment of face count. On creation, can use object creation panel to toggle end caps, add thickness, choose if floored or center origin, add HighPoly modifiers, and choose to keep faceting/make smooth aswell as change dimensions in the form of Height/Radius
-![Add DynaCyl](/images/AddDynaCyl.jpg)
+![Add DynaCyl](/images/AddDynacyl.jpg)
 
 <H2>Add Curve Array:</H2>
 Parents active object to a curve, 0's object location and sets up array/curve modifiers to work by default on X. If no active selected it can create a new cube with appropriate modifiers or a custom cube with no endcaps for merging verts. Works great with Make HighPoly/Make Weighted Normals
