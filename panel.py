@@ -21,14 +21,16 @@ class PT_RTPanel(bpy.types.Panel):
 
     def draw(self, context):
         layout = self.layout
-        props = bpy.context.scene.Props
+        props = bpy.context.scene.PanelProps
 
         col = layout.box()
         col.label(text="Utility")
 
         box = col.box()
         box.operator('redtools.floorsnap', text="FloorSnap")
-
+        box.prop(props, 'floorsnap_target_front', text="Floorsnap to frontmost")
+        box.prop(props, 'floorsnap_target_left', text="Floorsnap to leftmost")
+        #box.prop(props, 'floorsnap_worldorigin', text="Move to World Origin")
         box = col.box()
         box.operator('redtools.make_hp', text="Make HighPoly")
 
@@ -55,14 +57,14 @@ class PT_RTPanel(bpy.types.Panel):
             box.prop(props, 'curvearray_use_endcaps', text="Use EndCaps")
             box.prop(props, 'curvearray_mesh_scale', text="Mesh Scale:")
 
-        box.operator('redtools.add_curve_mesh', text="Add Curve Mesh")
+        #box.operator('redtools.add_curve_mesh', text="Add Curve Mesh")
         box = col.box()
         box.operator('redtools.add_ninetile', text="Add NineTile")
 
 
 
 #   PROP---------------------------------------------
-class Props(bpy.types.PropertyGroup):
+class PanelProps(bpy.types.PropertyGroup):
 
     cage_renamelow: BoolProperty(
         name="Add LowPoly suffix",
@@ -86,4 +88,22 @@ class Props(bpy.types.PropertyGroup):
         name="CurveArray Mesh Scale",
         default = 2,
         description="Starting scale of the curve object",
+    )
+
+    floorsnap_target_front: BoolProperty(
+        name="FloorSnap Front",
+        default=True,
+        description="Target front-most vertices",
+    )
+
+    floorsnap_target_left: BoolProperty(
+        name="FloorSnap Left",
+        default=True,
+        description="Target front-most vertices",
+    )
+
+    floorsnap_worldorigin: BoolProperty(
+        name="FloorSnap WorldOrigin",
+        default=True,
+        description="Move location to world origin",
     )
