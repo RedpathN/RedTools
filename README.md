@@ -1,5 +1,11 @@
 <H1>#RedTools</H1>
 
+<H2>How To Use:</H2>
+Panel with all utilities can be found in the toolbar dragged out from the right of the 3D view
+
+![Panel](/images/Panel.jpg)
+
+
 <H2>FloorSnap:</H2>
 For modular kits, a convenient tool to snap the object origin to a lower vertice, and the object to world origin. Will prioritise lowest vertice in the model, and if multiple exist will search out the front-left most vertice to set as origin. Can be configured with options in the panel
 
@@ -22,6 +28,7 @@ Duplicates (as linked) current object at same location, renaming to ObjectName_c
 
 <H2>Add DynaCyl:</H2>
 Creates a cylindrical mesh out of a few spun vertices, allowing for later adjustment of face count. On creation, can use object creation panel to toggle end caps, add thickness, choose if floored or center origin, add HighPoly modifiers, and choose to keep faceting/make smooth aswell as change dimensions in the form of Height/Radius
+
 ![Add_DynaCyl](/images/AddDynacyl.jpg)
 
 <H2>Add Curve Array:</H2>
