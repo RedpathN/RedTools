@@ -1,7 +1,6 @@
 import bpy
 from . import utilities
-from bpy.props import BoolProperty
-from bpy.props import IntProperty
+
 from bpy_extras.object_utils import AddObjectHelper, object_data_add
 from bpy.types import Operator
 from mathutils import Vector
@@ -56,9 +55,9 @@ def make_curve_array(self, context):
 
     ob = bpy.context.active_object
     curve = make_curve()
-    use_endcaps = bpy.context.scene.Props.curvearray_use_endcaps
+    use_endcaps = bpy.context.scene.PanelProps.curvearray_use_endcaps
 
-    if( bpy.context.scene.Props.curvearray_use_active == True ):
+    if( bpy.context.scene.PanelProps.curvearray_use_active == True ):
         ob.location = (0, 0, 0)
     elif (use_endcaps == True):
         ob = make_cube()
@@ -82,18 +81,19 @@ def make_curve_array(self, context):
 
 def make_curve_mesh(self, context):
 
-    scale = bpy.context.scene.Props.curvearray_mesh_scale
+    scale = bpy.context.scene.PanelProps.curvearray_mesh_scale
+    halfscale = scale/2
     verts = [
 
-        Vector((0, 0, 0)),
-        Vector((0 , scale, 0)),
-        Vector((scale, scale, 0)),
-        Vector((scale, 0, 0)),
+        Vector((-halfscale, -halfscale, -halfscale)),
+        Vector((-halfscale, halfscale, -halfscale)),
+        Vector((halfscale, halfscale, -halfscale)),
+        Vector((halfscale, -halfscale, -halfscale)),
 
-        Vector((0, 0, scale)),
-        Vector((0, scale, scale)),
-        Vector((scale, scale, scale)),
-        Vector((scale, 0, scale)),
+        Vector((-halfscale, -halfscale, halfscale)),
+        Vector((-halfscale, halfscale, halfscale)),
+        Vector((halfscale, halfscale, halfscale)),
+        Vector((halfscale, -halfscale, halfscale))
 
     ]
 

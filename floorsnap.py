@@ -1,6 +1,7 @@
 import bpy
 import bmesh
 import mathutils
+from mathutils import Vector
 
 
 # CLS----------------------------------------------------
@@ -12,9 +13,9 @@ class OT_Operator(bpy.types.Operator):
 
     def execute(self, context):
         # Get the active mesh
-        me = bpy.context.object
-        apply_move(me)
-        bm = make_bmesh(me)
+        ob = bpy.context.object
+        apply_move(ob)
+        bm = make_bmesh(ob)
         verts = bm.verts  # assign bm verts
 
         # -------------------------------------------------------------
@@ -23,14 +24,14 @@ class OT_Operator(bpy.types.Operator):
         xList = sort_x(zList)
         yList = sort_y(zList)
 
-        update_obj(bm, me)
-        move_obj(me, xList, yList, zList)
-        apply_move(me)
+        update_obj(bm, ob)
+        move_obj(ob, xList, yList, zList)
+        apply_move(ob)
 
         # debug(xList, yList, zList)
 
         bm.free()
-        me.data.update()
+        ob.data.update()
         # Print debug text
 
         return {'FINISHED'}
@@ -86,20 +87,33 @@ def to_seq(l1):
     return l1
 
 
+
+
 # Modify the BMesh, can do anything here...
-def move_obj(me, xList, yList, zList):
-    vec = mathutils.Vector((-get_x(xList[0]), -get_y(yList[0]), -get_z(zList[0])))
-    me.location += vec
+def move_obj(ob, xList, yList, zList):
+
+    x = -get_x(xList[-1])
+    y = -get_y(yList[-1])
+
+    if(bpy.context.scene.PanelProps.floorsnap_target_left == True ):
+        x = -get_x(xList[0])
+
+    if (bpy.context.scene.PanelProps.floorsnap_target_front == True):
+        y = -get_y(yList[0])
+
+    vec = mathutils.Vector((x, y, -get_z(zList[0])))
+    ob.location += vec
 
 
-def apply_move(me):
+def apply_move(ob):
+
     bpy.ops.object.transform_apply(location=True, rotation=False, scale=True)
-    me.location = 0, 0, 0
+    ob.location = (0, 0, 0)
 
 
-def update_obj(bm, me):
-    me.data.update()
-    bm.to_mesh(me.data)
+def update_obj(bm, ob):
+    ob.data.update()
+    bm.to_mesh(ob.data)
 
 
 def debug(xList, yList, zList):

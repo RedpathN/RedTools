@@ -58,7 +58,7 @@ def make_hp(ob):
     hpbevel.limit_method = 'ANGLE'
     hpbevel.angle_limit = 1.13446
     hpbevel.segments = 3
-    hpbevel.profile = 0.7
+    hpbevel.profile = 1.0
     hpbevel.offset_type = 'OFFSET'
     hpbevel.width = 0.04
     hpbevel.miter_outer = 'MITER_PATCH'
