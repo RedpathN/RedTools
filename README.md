@@ -1,4 +1,4 @@
-</H1>#RedTools</H1>
+<H1>#RedTools</H1>
 
 <H2>FloorSnap:</H2>
 For modular kits, a convenient tool to snap the object origin to a lower vertice, and the object to world origin. Will prioritise lowest vertice in the model, and if multiple exist will search out the front-left most vertice to set as origin. Can be configured with options in the panel
